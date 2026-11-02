@@ -314,4 +314,8 @@ Prajwal J.A.R.V.I.S 2.0 shows that a capable personal assistant needs three thin
 
 "For a more impressive demo, you can add a multi-part question:"
 
+----
 
+## Authors
+
+Created by **Prajwal** · Deployed by **Aman**
