@@ -56,7 +56,8 @@ It understands English, Hindi and Hinglish, and can reply in the language it is 
 The system has four layers. The browser handles voice and visuals. A small Python server guards and coordinates. The language model reasons. Live data sources supply facts.
 
 
-<img width="1568" height="2372" alt="01_architecture" src="https://github.com/user-attachments/assets/9e6dd1be-72a7-48f8-b3ca-b6c33788b879" />
+<img width="1568" height="2372" alt="01_architecture" src="https://github.com/user-attachments/assets/ef0ccad9-03cd-443a-a8eb-e83968a282a3" />
+
 
 
 
@@ -73,7 +74,10 @@ The system has four layers. The browser handles voice and visuals. A small Pytho
 Take the request "Weather in Pune and the latest AI papers". Here is the full journey.
 
 
-<img width="1568" height="948" alt="02_request_flow" src="https://github.com/user-attachments/assets/cc7597a9-54a2-4b73-b964-84344c8fc140" />
+
+<img width="1568" height="948" alt="02_request_flow" src="https://github.com/user-attachments/assets/c63d1eca-3550-47d0-a4a8-b56ee08e15c3" />
+
+
 
 
 
@@ -93,7 +97,11 @@ Take the request "Weather in Pune and the latest AI papers". Here is the full jo
 The agent is a bounded loop. The model may call tools, read what they return, and call more if needed, until it can give a final answer.
 
 
-<img width="1568" height="2462" alt="03_agent_loop" src="https://github.com/user-attachments/assets/fd081c54-6b09-45ed-946a-76cf1e042b7f" />
+
+
+<img width="1568" height="2462" alt="03_agent_loop" src="https://github.com/user-attachments/assets/4883db43-db2d-45f0-8156-db5d8f050d52" />
+
+
 
 
 
@@ -131,7 +139,8 @@ Each tool has a strict schema, validated arguments and a short human-readable er
 Language models write for the eye: bold marks, bullets, links, emoji, units. Read aloud, these sound robotic. Every reply therefore passes through a speech cleaner before it reaches the voice engine. The screen text and the spoken text are produced separately.
 
 
-<img width="1568" height="122" alt="04_speech_pipeline" src="https://github.com/user-attachments/assets/e65fc135-3d87-4a0c-be8c-36d31fdb120b" />
+<img width="1568" height="122" alt="04_speech_pipeline" src="https://github.com/user-attachments/assets/b26ba662-5035-498f-854c-ffc2917a6276" />
+
 
 
 
@@ -168,7 +177,9 @@ The cleaner keeps every script, so Hindi and other languages pass through safely
 
 The interface is designed to feel like a living machine rather than a chat box.
 
-<img width="1568" height="388" alt="05_states" src="https://github.com/user-attachments/assets/9dddc943-fa56-4613-ac5d-491edfd34863" />
+
+<img width="1568" height="388" alt="05_states" src="https://github.com/user-attachments/assets/7c272f71-83b9-46db-9c72-c05698d12d85" />
+
 
 
 
@@ -187,7 +198,9 @@ The interface is designed to feel like a living machine rather than a chat box.
 
 The whole scene changes colour and motion with what the agent is doing, so the user always knows what it is up to.
 
-<img width="672" height="2558" alt="06_scene_layers" src="https://github.com/user-attachments/assets/bcbf5ada-af03-4634-9439-f78c5b8c5bf7" />
+
+<img width="672" height="2558" alt="06_scene_layers" src="https://github.com/user-attachments/assets/fec1dcd3-f904-4091-a2a8-bc0a24d1ebc2" />
+
 
 
 | State | Colour | Motion |
