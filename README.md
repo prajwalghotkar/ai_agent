@@ -332,3 +332,5 @@ Prajwal J.A.R.V.I.S 2.0 shows that a capable personal assistant needs three thin
 ## Authors
 
 Created by **Prajwal** · Deployed by **Aman**
+
+Built with ❤️ and a lot of playing with Python 🐍
