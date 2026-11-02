@@ -8,3 +8,4 @@ memory.json
 .idea/
 .vscode/
 Openai/
+requirements-desktop.txt
