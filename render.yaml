@@ -1,0 +1,22 @@
+# One-click deploy on Render (https://render.com): New + > Blueprint > pick your GitHub repo.
+services:
+  - type: web
+    name: prajwal-jarvis
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: GROQ_API_KEY
+        sync: false          # you paste the value in the Render dashboard
+      - key: APP_PIN
+        sync: false
+      - key: GNEWS_API_KEY
+        sync: false
+      - key: USER_NAME
+        value: Prajwal
+      - key: DEFAULT_CITY
+        value: Pune

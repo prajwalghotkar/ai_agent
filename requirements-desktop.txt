@@ -1,0 +1,5 @@
+# Only needed for the optional voice-only desktop mode (python main.py)
+-r requirements.txt
+SpeechRecognition>=3.10
+PyAudio>=0.2.14
+pyttsx3>=2.90

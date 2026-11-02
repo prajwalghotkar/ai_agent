@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#02030a">
+  <title>Prajwal J.A.R.V.I.S</title>
+  <meta name="description" content="Prajwal's personal AI: live news, weather, research papers and Wikipedia, with voice.">
+  <link rel="icon" href="/static/img/prajwal.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="state-idle">
+  <canvas id="universe" aria-hidden="true"></canvas>
+  <img id="fallbackPortrait" src="/static/img/prajwal.jpg" alt="Prajwal" hidden>
+  <div id="grain" aria-hidden="true"></div>
+  <div id="vignette" aria-hidden="true"></div>
+
+  <!-- ===== boot / activate (browsers need one click before they allow voice) ===== -->
+  <section id="boot" role="dialog" aria-label="Start Jarvis">
+    <div class="boot-core">
+      <span class="boot-ring r1"></span><span class="boot-ring r2"></span><span class="boot-ring r3"></span>
+      <img class="boot-photo" src="/static/img/prajwal.jpg" alt="Prajwal">
+    </div>
+    <h1>PRAJWAL <span>J.A.R.V.I.S</span></h1>
+    <pre id="bootlog" aria-live="polite"></pre>
+    <button id="activate" class="btn-primary" disabled>INITIALIZING</button>
+    <p class="boot-hint">Best in Chrome or Edge &middot; allow the microphone when asked</p>
+  </section>
+
+  <div id="hud">
+    <header id="topbar">
+      <div class="brand"><span class="logo-dot"></span><b>PRAJWAL</b><i>J.A.R.V.I.S</i></div>
+      <div id="statusPill"><span class="dot"></span><span id="statusText">STANDBY</span></div>
+      <div class="top-right">
+        <span id="clock" aria-label="Local time"></span>
+        <button id="btnFeed" class="icon-btn only-mobile" title="Live feed">FEED</button>
+        <button id="btnChat" class="icon-btn only-mobile" title="Conversation">CHAT</button>
+        <button id="btnMute" class="icon-btn" title="Mute / unmute voice" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+        </button>
+        <button id="btnSettings" class="icon-btn" title="Settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <aside id="feed" class="panel left" aria-label="Live feed">
+      <div class="panel-head"><h2>LIVE FEED</h2>
+        <div class="head-actions"><button id="btnLocate" class="mini" title="Use my location for weather">LOCATE</button><button id="btnRefresh" class="mini">REFRESH</button></div>
+      </div>
+      <div id="cards" class="scroll"></div>
+    </aside>
+
+    <aside id="chatPanel" class="panel right" aria-label="Conversation">
+      <div class="panel-head"><h2>CONVERSATION</h2><button id="btnClear" class="mini">CLEAR</button></div>
+      <div id="log" class="scroll" aria-live="polite"></div>
+    </aside>
+
+    <div id="subtitle" aria-live="polite"><div id="subLabel">JARVIS</div><p id="subText"></p></div>
+
+    <footer id="dock">
+      <div id="chips"></div>
+      <form id="composer" autocomplete="off">
+        <button type="button" id="btnHands" class="toggle" title="Always listening: say 'Jarvis ...'" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M2 12h3M7 8v8M11 5v14M15 8v8M19 10v4M22 12h-1"/></svg><span>HANDS-FREE</span>
+        </button>
+        <button type="button" id="mic" class="mic" title="Talk to Jarvis" aria-label="Talk to Jarvis">
+          <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+        </button>
+        <input id="input" type="text" placeholder="Ask Prajwal's Jarvis anything..." maxlength="500" aria-label="Message">
+        <button type="submit" id="send" class="send" aria-label="Send">
+          <svg viewBox="0 0 24 24"><path d="M3 11.5 21 3l-8.5 18-2-7.5L3 11.5z"/></svg>
+        </button>
+      </form>
+    </footer>
+  </div>
+
+  <!-- ===== settings ===== -->
+  <dialog id="settings">
+    <form method="dialog" class="dlg">
+      <h2>SETTINGS</h2>
+      <label>Speech language
+        <select id="setLang">
+          <option value="en-IN">English (India)</option><option value="hi-IN">Hindi</option>
+          <option value="en-US">English (US)</option><option value="en-GB">English (UK)</option>
+        </select></label>
+      <label>Jarvis voice <select id="setVoice"><option value="">Auto (best male voice)</option></select></label>
+      <label>Speaking speed <input id="setRate" type="range" min="0.7" max="1.4" step="0.05" value="1"></label>
+      <label>Visual quality
+        <select id="setFx"><option value="auto">Auto</option><option value="high">High</option><option value="low">Light (faster)</option></select></label>
+      <label>Access PIN (only if your server uses one) <input id="setPin" type="password" autocomplete="off" placeholder="optional"></label>
+      <div class="mem"><div class="mem-head"><b>WHAT JARVIS REMEMBERS</b><button type="button" id="memClear" class="mini">FORGET ALL</button></div><ul id="memList"></ul></div>
+      <menu><button value="close" class="btn-primary">DONE</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="pinDialog">
+    <form method="dialog" class="dlg" id="pinForm">
+      <h2>ACCESS PIN</h2>
+      <p>This Jarvis is protected. Enter the PIN to continue.</p>
+      <input id="pinInput" type="password" autocomplete="off" placeholder="PIN">
+      <menu><button value="ok" class="btn-primary">UNLOCK</button></menu>
+    </form>
+  </dialog>
+
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>
